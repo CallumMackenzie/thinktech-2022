@@ -1,36 +1,84 @@
 
 const API_ACCOUNT_ID = "c15bc852-9091-47ab-9488-098c2f1c1cd4";
-const ACCESS_TOKEN = "eyJ0eXAiOiJNVCIsImFsZyI6IlJTMjU2Iiwia2lkIjoiNjgxODVmZjEtNGU1MS00Y2U5LWFmMWMtNjg5ODEyMjAzMzE3In0.AQoAAAABAAUABwCAAHBLscraSAgAgGg0rbnK2kgCANaMfsZSxX9Em4TaO1BBvZgVAAEAAAAYAAIAAAAFAAAAHQAAAA0AJAAAAGM1MDMyMDg5LTk5NjgtNGQ2ZS05NTZiLWQxYTZiOWZmOTdlMyIAJAAAAGM1MDMyMDg5LTk5NjgtNGQ2ZS05NTZiLWQxYTZiOWZmOTdlMxIAAQAAAAYAAABqd3RfYnIjACQAAABjNTAzMjA4OS05OTY4LTRkNmUtOTU2Yi1kMWE2YjlmZjk3ZTM.trqwQffDU4AdffNeKwp9n_C5bOt17etGSUN7lvYMpyFuoZ-Hz2-cd9XzqVgPNk98KXARzh1kn7WjPMSc-MXgltMjTNpBWA9zNvIGKrFcfxa4HuBdiT92l5x9tIgntY3dPUcCqyQFL1RP2Io0-AlcK1v8WFqqa3g9BQ4ripVyrVArCzCM_0nC_4Yze6w-X_5p-QOn3JtmeCrQOKk93XVTRR7eLkWoT3qOuwQ1tjqlWlNFJhFjd2i19649dR7PkW5Uuh78bukD6qQDcG3H5ASSBEuH_wNOu-3PwBd1J_4RxAEMdK04GVgv6DyN9eS42IBBHgk6kSJ56-yf3nM7oqfMHA";
+const USER_ID = "c67e8cd6-c552-447f-9b84-da3b5041bd98";
+const CLIENT_ID = "c5032089-9968-4d6e-956b-d1a6b9ff97e3";
 const BASE_PATH = "https://demo.docusign.net/restapi";
 
+const RSA_PRIVATE = "MIIEpAIBAAKCAQEAq4FObBcVKkPDln9yhaKxnImxye9FHA6Kfq9ttZhk4L/6OoPCovTlUm1CWx5FdJ9Vggv6oJjBgWBBWMOLGQ3pKnMsvheX6d9rZD5Mgs9ePcNnytq1tCpJpoRr0r61s7XTv73XV2uZnfaegHDS7Pw4ylzJ9CGYa4gfu9OB/xKjx8V5PGX9El/RfK5VR7tHvCLMCyZXId4TlTDVH+umfVVAtX4mOzoDe1xPx4NIgoXzd/QDzu1QQE8U6caMgPABzMhNxTiDFH2jIpr+1MtIB/7iVax+mGrpuiosqpRec11FveOiuqKE5qoKy4rC1yyombpeKAa+iql0/JLP4AQcgnCZ0wIDAQABAoIBAA0QoilAzudz1xQBbHd6r94VbTpNZG3hO7Kv6YMic1jdtxG7FNo2HrwbP6lSUocyViC8ieCvElqpOwEokFGdyivmLzvh7zwtPXCbAFgctPiuiJse8yWg7RBm2RHqXkws508dhqiNtVufvG5bae4MvsTHscjLwGE8svIriCUmxdxDcm0fKR6W2x+brpeiK6VSV7H4bqoHt4fwrS9APIwXLM8nbueKnVO3ME4i6db9Sh+QIBBfgAOW2L+oscqXiCKVL1wiZgsTwJHYe6SZCi9bXg/AvrGfYEapwzLZj2dOdl03KO1Xm/fnvjM6tkTY7RXDVF3mQ2P16l3ENOcUn8eVmYkCgYEA1afE3Odd45cfxu4x0brfu1YI45dV7kzkE8/n0ISN4hPhmT4Qn+O3eR91N7b2VQYz7LH76o6ew0zMKNgU6m+hk3kBSpSpvJMipN+mSCx65x5Ek79LwvJul9laCaaiO7kVeqziB9b1Uj8KDzc64Q0P3Wh6MEw+9ky8J5ria7AZLRsCgYEAzX7138BaUdzmqkeNCTiq0r+5C1Ke1SDolEuO1Q7D41GvHCfFldOpqE+kb7a11w/F51lEV+vyS3w9naosJf9gAcl40gYOOHhkjyCrVJkO1+f2V3wtvrYxrdw9NySTKZ8y6IWB3Q0N6WQ6ruDtjXf67JJknydZ8PlJ+G1BIXDRqakCgYEA03zGOYQsQ+SL5/ZQCjLY1C9NjTt4K/KgsZvS82zCpU7YuT/eZOab7qFc/lF1dKQ3MczceEnEjb2vOZ7q1US6w6e7x39wpOFgIaPgjQC6h5xGdZmd/NLM9jKIFZWEcWm8ATqwYuI847TS2EzrU2oCkj+g874FdPhwJyQBjGc8BJECgYATVkoexwP4xheymE8OOhXhBQeNqDWoCpO4OK/1HpGSV4Jp3Ng79BH3856eoIvV8/cEgSLsPxiqv8Mwje3fmXtYT7Qd11IJQFL+IO3eZRS/fmVw8A+B7bUZDit4f+mVNhTdSorg2TSg7LyU7jeMY2jqUBBF5bcR9PNf/C/vzKT+GQKBgQCDjGjvYiU8QbnUy4Ewuy5eo7uC+TbwxsC+joBo7ddMogUVXtWHYOidI6pIl/jP/yP4j156q6C3aR1OaS1OZ5HT3190fkWIGrYh8SdFFlMJ14b4bx2XSdSsydjQS7Vm4V3V3eGtta0ECrHXDwlluMZ67OlxxpyW4/WftbNrHBEU3g==";
+
 import { ApiClient, Envelope, EnvelopeFormData, EnvelopesApi } from "docusign-esign";
+import { Result } from "./error";
+
+class TokenManager {
+	private static token: string | undefined;
+	private static tokenExpiry: number | undefined;
+
+	static async getToken(dsApiClient: ApiClient): Promise<Result<string>> {
+		if (this.tokenExpiry === undefined ||
+			this.token === undefined ||
+			Date.now() > this.tokenExpiry - 15 * 60) {
+			const response = await dsApiClient.requestJWTUserToken(
+				CLIENT_ID,
+				USER_ID,
+				["signature", "impersonation"],
+				Buffer.from(RSA_PRIVATE, "base64"),
+				3600
+			);
+			let accessToken = response["access_token"];
+			let expiresIn = response["expires_in"];
+
+			if (accessToken === undefined || expiresIn === undefined)
+				return Promise.resolve(
+					Result.Err("Access token could not be resolved: "
+						+ JSON.stringify(response), 500));
+			if (expiresIn! instanceof Number)
+				return Promise.resolve(
+					Result.Err("Expiry time not a number: "
+						+ JSON.stringify(response), 500));
+
+			this.tokenExpiry = Date.now() + expiresIn;
+			this.token = accessToken as string;
+			return Promise.resolve(Result.Ok(this.token));
+		} else return Promise.resolve(Result.Ok(this.token));
+	}
+};
 
 export class DocuSignWrapper {
+
 	static instantiate = (): DocuSignWrapper =>
-		new DocuSignWrapper(API_ACCOUNT_ID, ACCESS_TOKEN, BASE_PATH);
+		new DocuSignWrapper(API_ACCOUNT_ID, BASE_PATH);
 
 	private accountId: string;
-	private accessToken: string;
-	private basePath: string;
 	private dsApiClient: ApiClient;
 	private envelopesApi: EnvelopesApi;
 
-	private constructor(accountId: string, accessToken: string, basePath: string) {
+	private constructor(accountId: string, basePath: string) {
 		this.accountId = accountId;
-		this.accessToken = accessToken;
-		this.basePath = basePath;
 
 		this.dsApiClient = new ApiClient();
 		this.dsApiClient.setBasePath(basePath);
-		this.dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + accessToken);
 		this.envelopesApi = new EnvelopesApi(this.dsApiClient);
 	}
 
-	async getEnvelope(envelopeId: string): Promise<Envelope> {
-		return await this.envelopesApi.getEnvelope(this.accountId, envelopeId);
+	private async refreshAccessToken(): Promise<Result<any>> {
+		const tokenResult = await TokenManager.getToken(this.dsApiClient);
+		if (tokenResult.isError()) return tokenResult;
+		const token = tokenResult.result;
+		this.dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + token);
+		return Result.Ok();
 	}
 
-	async getFormData(envelopeId: string): Promise<EnvelopeFormData> {
-		return await this.envelopesApi.getFormData(this.accountId, envelopeId);
+	async getEnvelope(envelopeId: string): Promise<Result<Envelope>> {
+		const result = await this.refreshAccessToken();
+		if (result.isError()) return result;
+		let envelope = await this.envelopesApi.getEnvelope(this.accountId, envelopeId);
+		return Result.Ok(envelope);
+	}
+
+	async getFormData(envelopeId: string): Promise<Result<EnvelopeFormData>> {
+		const result = await this.refreshAccessToken();
+		if (result.isError()) return result;
+		let formData = await this.envelopesApi.getFormData(this.accountId, envelopeId);
+		return Result.Ok(formData);
 	}
 }

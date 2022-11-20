@@ -1,4 +1,5 @@
 import { DocuSignWrapper } from "./docusign";
+import { Result } from "./error";
 
 export enum NonEmployeeOrContractType {
 	Physician = "contractPhysician",
@@ -21,8 +22,14 @@ export enum VaccineSite {
 
 export class VaccinationFormData {
 
-	static fromFormData = async (docusign: DocuSignWrapper, envelopeId: string) => {
-		const docuSignFormData = await docusign.getFormData(envelopeId);
+	static fromFormData = async (docusign: DocuSignWrapper, envelopeId: string)
+		: Promise<Result<VaccinationFormData>> => {
+		const docuSignFormResult = await docusign.getFormData(envelopeId);
+		if (docuSignFormResult.isError()) return docuSignFormResult as Result<any>;
+		const docuSignFormData = docuSignFormResult.result;
+		if (docuSignFormData === undefined)
+			return Result.Err("DocuSign form data was undefined", 500);
+
 		console.log(docuSignFormData);
 		const vfd = new VaccinationFormData();
 		docuSignFormData.formData?.forEach(item => {
@@ -59,6 +66,7 @@ export class VaccinationFormData {
 					break;
 			}
 		});
+		return Result.Ok(vfd);
 	};
 
 	// Recipient properties

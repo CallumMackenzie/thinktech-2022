@@ -15,8 +15,12 @@ export async function handler(event: any, context: any, callback: any) {
 	let envelopeId = body.data.envelopeId;
 	const docusign = DocuSignWrapper.instantiate();
 
-	let formData = await VaccinationFormData.fromFormData(docusign, envelopeId);
+	let formResult = await VaccinationFormData.fromFormData(docusign, envelopeId);
+	if (formResult.isError()) return formResult;
+	const formData = formResult.result;
+
 	console.log(JSON.stringify(formData));
+
 
 	// Retrieve the data -> DocuSign APIs
 	// Collect into a structure -> JS
