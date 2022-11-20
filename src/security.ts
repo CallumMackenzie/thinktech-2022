@@ -3,9 +3,9 @@ import { Result } from "./error";
 import * as crypto from "crypto";
 
 const HMAC_KEYS = [1, 2, 3].map(x => "X-DocuSign-Signature-" + x);
-const HMAC_SECRETS = ["4/meKiS1ZqfjmH4CbdZhfAST/BAWRhtSLI5ddV/+a6w=",
-	"FMcHBXiq0zns62kfoTxzUWeeLTQHeTtVnSk1zVi7/QU=",
-	"dGTSVEMDCUcmpCzgvDXeyOTPh6ol8LxXjErSJxerPI0="];
+const HMAC_SECRETS = ["Fk0c8bUCYNMmTPzm5VursbW2JIO7wzIbzcrCUxSld5M=",
+	"/82AVIwrG/94HpPWfaMJCQuMKPZVBzJitEr5xXixV4U=",
+	"eOCJZD1W0FEoJvuw5B1djfCwInBDa2CjM+uNnxns2sE="];
 
 const LOGIN_INFO = {
 	usernameKey: "php-auth-user",

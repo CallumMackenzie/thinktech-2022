@@ -1,7 +1,7 @@
 
-const ACCOUNT_ID = "2bd00cc8-ca4a-40a1-b7d8-e7389f70e87e";
-const ACCESS_TOKEN = "ba6b27e7-6ffc-4359-b8ac-9cb88a64c26f";
-const BASE_PATH = "https://ca.docusign.net";
+const ACCOUNT_ID = "c15bc852-9091-47ab-9488-098c2f1c1cd4";
+const ACCESS_TOKEN = "c5032089-9968-4d6e-956b-d1a6b9ff97e3";
+const BASE_PATH = "https://demo.docusign.net";
 
 import { ApiClient, EnvelopesApi } from "docusign-esign";
 
