@@ -47,30 +47,32 @@ class TokenManager {
 		if (this.tokenExpiry === undefined ||
 			this.token === undefined ||
 			Date.now() > this.tokenExpiry - TOKEN_REFRESH_TIME) {
-			const response = await dsApiClient.requestJWTUserToken(
+			const responseObj = await dsApiClient.requestJWTUserToken(
 				CLIENT_ID,
 				USER_ID,
 				["signature", "impersonation"],
 				Buffer.from(RSA_PRIVATE, "utf-8"),
 				TOKEN_LIFETIME
 			);
-			console.log(response);
+			let responseText = responseObj["text"];
+			if (responseText === undefined)
+				return Result.Err("Raw response text was undefined: "
+					+ JSON.stringify(responseObj), 500);
+			let response = JSON.parse(responseText);
 			let accessToken = response["access_token"];
 			let expiresIn = response["expires_in"];
 
 			if (accessToken === undefined || expiresIn === undefined)
-				return Promise.resolve(
-					Result.Err("Access token could not be resolved: "
-						+ JSON.stringify(response), 500));
+				return Result.Err("Access token could not be resolved: "
+					+ JSON.stringify(response), 500);
 			if (expiresIn! instanceof Number)
-				return Promise.resolve(
-					Result.Err("Expiry time not a number: "
-						+ JSON.stringify(response), 500));
+				return Result.Err("Expiry time not a number: "
+					+ JSON.stringify(response), 500);
 
 			this.tokenExpiry = Date.now() + expiresIn;
 			this.token = accessToken as string;
-			return Promise.resolve(Result.Ok(this.token));
-		} else return Promise.resolve(Result.Ok(this.token));
+			return Result.Ok(this.token);
+		} else return Result.Ok(this.token);
 	}
 };
 
