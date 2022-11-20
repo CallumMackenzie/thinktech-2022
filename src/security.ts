@@ -15,7 +15,7 @@ const LOGIN_INFO = {
 };
 
 // Checks request authorization and returns the request body
-export const authorize = (event: any) => {
+export const authorize = (event: any): Result => {
 	const headers = event.headers;
 	const rawBody = event.body;
 
@@ -34,19 +34,19 @@ export const authorize = (event: any) => {
 	return bodyResult;
 };
 
-const unauthorized = (msg: string) => {
+const unauthorized = (msg: string): Result => {
 	let msg2 = "Webhook signature not valid: " + msg;
 	console.log(msg2);
 	return Result.Err(msg2, 401);
 };
 
-const authorized = (msg: string = "") => {
+const authorized = (msg: string = ""): Result => {
 	if (msg != "")
 		console.log(msg);
 	return Result.Ok();
 };
 
-const parseBody = (body: any) => {
+const parseBody = (body: any): Result => {
 	try {
 		return Result.Ok(JSON.parse(body));
 	} catch (e) {
@@ -54,7 +54,7 @@ const parseBody = (body: any) => {
 	}
 };
 
-const checkLoginCredentials = (headers: any) => {
+const checkLoginCredentials = (headers: any): Result => {
 	let username = headers[LOGIN_INFO.usernameKey];
 	if (username != LOGIN_INFO.username)
 		return unauthorized("Incorrect username (" + username + ")");
@@ -66,7 +66,7 @@ const checkLoginCredentials = (headers: any) => {
 	return authorized("Login credentials correct.");
 };
 
-const checkHMAC = (headers: any, body: any) => {
+const checkHMAC = (headers: any, body: any): Result => {
 	const keys = HMAC_KEYS.map(x => headers[x]);
 	for (const hmacSecret in HMAC_SECRETS) {
 		const hmac = crypto.createHmac('sha256', hmacSecret);
