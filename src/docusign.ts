@@ -6,12 +6,12 @@ const BASE_PATH = "https://ca.docusign.net";
 import { ApiClient, EnvelopesApi } from "docusign-esign";
 
 class DocuSignWrapper {
-	accountId: String;
-	accessToken: String;
-	basePath: String;
+	accountId: string;
+	accessToken: string;
+	basePath: string;
 	dsApiClient: ApiClient;
 
-	constructor(accountId: String, accessToken: String, basePath: String) {
+	constructor(accountId: string, accessToken: string, basePath: string) {
 		this.accountId = accountId;
 		this.accessToken = accessToken;
 		this.basePath = basePath;
@@ -21,7 +21,7 @@ class DocuSignWrapper {
 		this.dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + accessToken);
 	}
 
-	async getEnvelope(envelopeId: String) {
+	async getEnvelope(envelopeId: string) {
 		let envelopesApi = new EnvelopesApi(this.dsApiClient);
 		return await envelopesApi.getEnvelope(this.accountId, envelopeId, null);
 	}

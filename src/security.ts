@@ -34,13 +34,13 @@ export const authorize = (event: any) => {
 	return bodyResult;
 };
 
-const unauthorized = (msg: String) => {
+const unauthorized = (msg: string) => {
 	let msg2 = "Webhook signature not valid: " + msg;
 	console.log(msg2);
 	return Result.Err(msg2, 401);
 };
 
-const authorized = (msg: String = "") => {
+const authorized = (msg: string = "") => {
 	if (msg != "")
 		console.log(msg);
 	return Result.Ok();

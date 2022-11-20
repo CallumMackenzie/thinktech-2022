@@ -2,7 +2,7 @@
 export const Result = {
 	Ok: <Type>(result: Type | undefined = undefined) =>
 		new InternalResult(ResultType.Ok, result, ""),
-	Err: (message: String, code: Number) =>
+	Err: (message: string, code: Number) =>
 		new InternalResult(ResultType.Error, { statusCode: code }, message)
 };
 
@@ -14,9 +14,9 @@ enum ResultType {
 class InternalResult<Type> {
 	type: ResultType;
 	result: Type | undefined;
-	message: String;
+	message: string;
 
-	constructor(type: ResultType, result: Type | undefined, message: String) {
+	constructor(type: ResultType, result: Type | undefined, message: string) {
 		this.type = type;
 		this.result = result;
 		this.message = message;
