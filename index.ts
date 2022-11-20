@@ -1,6 +1,7 @@
 
 import { authorize } from "./src/security";
 import { DocuSignWrapper } from "./src/docusign";
+import { VaccinationFormData } from "./src/form";
 
 export async function handler(event: any, context: any, callback: any) {
 
@@ -11,12 +12,10 @@ export async function handler(event: any, context: any, callback: any) {
 	if (securityResult.isError()) return securityResult.result;
 	let body = securityResult.result;
 
-	console.log(body);
 	let envelopeId = body.data.envelopeId;
+	const docusign = DocuSignWrapper.instantiate();
 
-	const ds = DocuSignWrapper.instantiate();
-	let formData = await ds.getFormData(envelopeId);
-
+	let formData = await VaccinationFormData.fromFormData(docusign, envelopeId);
 	console.log(formData);
 
 	// Retrieve the data -> DocuSign APIs
