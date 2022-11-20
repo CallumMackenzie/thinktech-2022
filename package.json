@@ -1,0 +1,27 @@
+{
+	"name": "thinktech-2022",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"predeploy": "npx tsc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CallumMackenzie/thinktech-2022.git"
+	},
+	"author": "Callum Mackenzie",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/CallumMackenzie/thinktech-2022/issues"
+	},
+	"homepage": "https://github.com/CallumMackenzie/thinktech-2022#readme",
+	"dependencies": {
+		"crypto": "^1.0.1",
+		"typescript": "^4.9.3"
+	},
+	"devDependencies": {
+		"docusign-esign": "^5.19.0"
+	}
+}
