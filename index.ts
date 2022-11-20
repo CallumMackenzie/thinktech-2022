@@ -1,6 +1,6 @@
 
 import { authorize } from "./src/security";
-import * as docusign from "./src/docusign";
+import { DocuSignWrapper } from "./src/docusign";
 
 export async function handler(event: any, context: any, callback: any) {
 
@@ -14,10 +14,10 @@ export async function handler(event: any, context: any, callback: any) {
 	console.log(body);
 	let envelopeId = body.data.envelopeId;
 
-	const ds = docusign.instantiate();
-	let envelope = await ds.getEnvelope(envelopeId);
+	const ds = DocuSignWrapper.instantiate();
+	let formData = await ds.getFormData(envelopeId);
 
-	console.log(envelope);
+	console.log(formData);
 
 	// Retrieve the data -> DocuSign APIs
 	// Collect into a structure -> JS
