@@ -1,0 +1,44 @@
+name: Deploy to AWS lambda
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+
+  update_aws_lambsa:
+    name: Deploy to AWS Lambda
+    runs-on: ubuntu-latest
+    
+    steps:
+  
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 18.12.1
+          
+      - name: Build lambda
+        run: |
+          npm i
+          npx tsc
+        
+      - name: Zip output
+        uses: vimtor/action-zip@v1
+        with:
+          files: ./*
+          dest: thinktech-2022.zip
+          
+      - name: Deploy lambda to AWS
+        uses: appleboy/lambda-action@v0.1.5
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: thinktech-webhook
+          zip_file: thinktech-2022.zip
+          
+          
