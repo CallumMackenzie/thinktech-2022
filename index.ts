@@ -15,7 +15,7 @@ export async function handler(event: any, context: any, callback: any) {
 	let envelopeId = body.data.envelopeId;
 
 	const ds = docusign.instantiate();
-	let envelope = ds.getEnvelope(envelopeId);
+	let envelope = await ds.getEnvelope(envelopeId);
 
 	console.log(envelope);
 
