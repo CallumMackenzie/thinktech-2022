@@ -28,4 +28,4 @@ class DocuSignWrapper {
 }
 
 export const instantiate = () =>
-	new DocuSignWrapper(ACCOUNT_ID, ACCESS_TOKEN, BASE_PATH);
+	new DocuSignWrapper(API_ACCOUNT_ID, ACCESS_TOKEN, BASE_PATH);
