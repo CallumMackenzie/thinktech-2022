@@ -47,13 +47,14 @@ class TokenManager {
 		if (this.tokenExpiry === undefined ||
 			this.token === undefined ||
 			Date.now() > this.tokenExpiry - TOKEN_REFRESH_TIME) {
-			const response = JSON.parse(await dsApiClient.requestJWTUserToken(
+			const response = await dsApiClient.requestJWTUserToken(
 				CLIENT_ID,
 				USER_ID,
 				["signature", "impersonation"],
 				Buffer.from(RSA_PRIVATE, "utf-8"),
 				TOKEN_LIFETIME
-			));
+			);
+			console.log(response);
 			let accessToken = response["access_token"];
 			let expiresIn = response["expires_in"];
 
