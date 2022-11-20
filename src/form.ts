@@ -1,5 +1,24 @@
 import { DocuSignWrapper } from "./docusign";
 
+export enum NonEmployeeOrContractType {
+	Physician = "contractPhysician",
+	Volunteer = "volunteer",
+	Student = "student",
+	Other = "other"
+};
+
+export enum EmployeeOrg {
+	VCH = "vch?",
+	PHSA = "phsa?",
+	PHC = "phc?",
+	FHA = "fha?"
+};
+
+export enum VaccineSite {
+	LeftDeltoid = "leftDeltoid",
+	RightDeltoid = "rightDeltoid"
+};
+
 export class VaccinationFormData {
 
 	static fromFormData = async (docusign: DocuSignWrapper, envelopeId: string) => {
@@ -20,8 +39,8 @@ export class VaccinationFormData {
 					return vfd.PHN = item.value;
 				case "clinicLocation":
 					return vfd.clinicLocation = item.value;
-				case "currentDate":
-					return vfd.currentDate = item.value;
+				case "dateSigned":
+					return vfd.dateSigned = item.value;
 				case "residentialAddress":
 					return vfd.residentialAddress = item.value;
 				case "phoneNumber":
@@ -32,6 +51,10 @@ export class VaccinationFormData {
 					return vfd.nurseFirstName = item.value;
 				case "nurseLastName":
 					return vfd.nurseLastName = item.value;
+				case "necsOther":
+					return vfd.necsOther = item.value;
+				case "necsOrg":
+					return vfd.necsOrg = item.value;
 				default:
 					break;
 			}
@@ -44,17 +67,24 @@ export class VaccinationFormData {
 	email: string | undefined;
 	birthDate: string | undefined;
 	PHN: string | undefined;
-	currentDate: string | undefined;
+	dateSigned: string | undefined;
 	residentialAddress: string | undefined;
 	phoneNumber: string | undefined;
-	// Questionaire fields
+
+	necsType: NonEmployeeOrContractType | undefined; // !TODO
+	necsOther: string | undefined;
+	necsOrg: string | undefined;
+
+	firstFluVaccine: boolean | undefined; // !TODO
+	seriousIllness: boolean | undefined; // !TODO
+	prevVaccineReaction: boolean | undefined; // !TODO
+	employeeOrg: EmployeeOrg[] | undefined; // !TODO
 
 	// Nurse properties
 	clinicLocation: string | undefined;
 	lotNumber: string | undefined;
 	nurseFirstName: string | undefined;
 	nurseLastName: string | undefined;
-	// Vaccine
-	// Site
+	vaccineSite: VaccineSite | undefined; // !TODO
 
 }
