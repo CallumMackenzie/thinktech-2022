@@ -3,7 +3,7 @@ const API_ACCOUNT_ID = "c15bc852-9091-47ab-9488-098c2f1c1cd4";
 const USER_ID = "c67e8cd6-c552-447f-9b84-da3b5041bd98";
 const CLIENT_ID = "c5032089-9968-4d6e-956b-d1a6b9ff97e3";
 const BASE_PATH = "https://demo.docusign.net/restapi";
-const OAUTH_BASE_PATH = "https://account-d.docusign.com/oauth";
+const OAUTH_BASE_PATH = "account-d.docusign.com";
 
 const RSA_PRIVATE = `-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAq4FObBcVKkPDln9yhaKxnImxye9FHA6Kfq9ttZhk4L/6OoPC
