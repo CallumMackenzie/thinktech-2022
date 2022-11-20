@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.5.1
         with:
-          node-version: 18.12.1
+          node-version: 16.16.0
           
       - name: Build lambda
         run: |
