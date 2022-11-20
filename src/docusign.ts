@@ -36,6 +36,9 @@ ydjQS7Vm4V3V3eGtta0ECrHXDwlluMZ67OlxxpyW4/WftbNrHBEU3g==
 import { ApiClient, Envelope, EnvelopeFormData, EnvelopesApi } from "docusign-esign";
 import { Result } from "./error";
 
+const TOKEN_LIFETIME = 60 * 15; // 15 minutes
+const TOKEN_REFRESH_TIME = 60 * 5; // 5 minutes
+
 class TokenManager {
 	private static token: string | undefined;
 	private static tokenExpiry: number | undefined;
@@ -43,14 +46,14 @@ class TokenManager {
 	static async getToken(dsApiClient: ApiClient): Promise<Result<string>> {
 		if (this.tokenExpiry === undefined ||
 			this.token === undefined ||
-			Date.now() > this.tokenExpiry - 15 * 60) {
-			const response = await dsApiClient.requestJWTUserToken(
+			Date.now() > this.tokenExpiry - TOKEN_REFRESH_TIME) {
+			const response = JSON.parse(await dsApiClient.requestJWTUserToken(
 				CLIENT_ID,
 				USER_ID,
 				["signature", "impersonation"],
 				Buffer.from(RSA_PRIVATE, "utf-8"),
-				3600
-			);
+				TOKEN_LIFETIME
+			));
 			let accessToken = response["access_token"];
 			let expiresIn = response["expires_in"];
 
