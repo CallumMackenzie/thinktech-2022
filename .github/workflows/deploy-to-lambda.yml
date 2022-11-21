@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  update_aws_lambsa:
+  update_aws_lambda:
     name: Deploy to AWS Lambda
     runs-on: ubuntu-latest
     
@@ -22,24 +22,46 @@ jobs:
         with:
           node-version: 16.16.0
           
-      - name: Build lambda
+      - name: Build docusign webhook lambda
         run: |
+          cd docusign-webhook
           npm i
           npx tsc
         
-      - name: Zip output
+      - name: Zip webhook output
         uses: vimtor/action-zip@v1
         with:
           files: .
           dest: thinktech-2022.zip
           
-      - name: Deploy lambda to AWS
+      - name: Deploy webhook lambda to AWS
         uses: appleboy/lambda-action@v0.1.5
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
           function_name: thinktech-webhook
-          zip_file: thinktech-2022.zip
-          
-          
+          zip_file: docusign-wehbook.zip
+      
+      - name: Build form sign request lambda
+        run: |
+          cd ..
+          cd form-sign-request
+          npm i
+          npx tsc
+
+      - name: Zip form sign request output
+        uses: vimtor/action-zip@v1
+        with:
+          files: .
+          dest: sign-request.zip
+
+      # TODO
+      # - name: Deploy sign request lambda to AWS
+      #   uses: appleboy/lambda-action@v0.1.5
+      #   with:
+      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_region: ${{ secrets.AWS_REGION }}
+      #     function_name: thinktech-webhook
+      #     zip_file: docusign-wehbook.zip

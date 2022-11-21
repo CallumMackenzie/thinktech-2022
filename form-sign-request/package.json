@@ -1,0 +1,29 @@
+{
+	"name": "docusign-form-request",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"predeploy": "npx tsc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CallumMackenzie/thinktech-2022.git"
+	},
+	"author": "Callum Mackenzie",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/CallumMackenzie/thinktech-2022/issues"
+	},
+	"homepage": "https://github.com/CallumMackenzie/thinktech-2022#readme",
+	"dependencies": {
+		"typescript": "^4.9.3"
+	},
+	"devDependencies": {
+		"@types/docusign-esign": "^5.19.0",
+		"@types/node": "^18.11.9",
+		"crypto": "^1.0.1",
+		"docusign-esign": "^5.19.0"
+	}
+}
