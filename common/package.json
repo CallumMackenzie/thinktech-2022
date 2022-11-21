@@ -23,7 +23,6 @@
 	"devDependencies": {
 		"@types/docusign-esign": "^5.19.0",
 		"@types/node": "^18.11.9",
-		"crypto": "^1.0.1",
 		"docusign-esign": "^5.19.0"
 	}
 }
