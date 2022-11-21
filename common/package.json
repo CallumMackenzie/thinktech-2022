@@ -18,11 +18,11 @@
 	},
 	"homepage": "https://github.com/CallumMackenzie/thinktech-2022#readme",
 	"dependencies": {
-		"typescript": "^4.9.3"
+		"typescript": "^4.9.3",
+		"docusign-esign": "^5.19.0"
 	},
 	"devDependencies": {
 		"@types/docusign-esign": "^5.19.0",
-		"@types/node": "^18.11.9",
-		"docusign-esign": "^5.19.0"
+		"@types/node": "^18.11.9"
 	}
 }
