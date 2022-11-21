@@ -21,13 +21,6 @@ jobs:
         uses: actions/setup-node@v3.5.1
         with:
           node-version: 16.16.0
-          
-      - name: Build common with node
-        run: |
-          cd common
-          npm i
-          npx tsc
-          cd ..
 
       - name: Build docusign webhook lambda
         run: |
