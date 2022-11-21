@@ -33,6 +33,9 @@ export class VaccinationFormData {
 		console.log(docuSignFormData);
 		const vfd = new VaccinationFormData();
 		docuSignFormData.formData?.forEach(item => {
+			for (let org in EmployeeOrg)
+				if (item.name?.startsWith(org) && item.value == "X")
+					return vfd.employeeOrg.push(org as EmployeeOrg);
 			switch (item.name?.trim()) {
 				case "firstName":
 					return vfd.firstName = item.value;
@@ -86,7 +89,7 @@ export class VaccinationFormData {
 	firstFluVaccine: boolean | undefined; // !TODO
 	seriousIllness: boolean | undefined; // !TODO
 	prevVaccineReaction: boolean | undefined; // !TODO
-	employeeOrg: EmployeeOrg[] | undefined; // !TODO
+	employeeOrg: EmployeeOrg[] = []; // !TODO
 
 	// Nurse properties
 	clinicLocation: string | undefined;
