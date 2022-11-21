@@ -56,12 +56,11 @@ jobs:
           files: .
           dest: sign-request.zip
 
-      # TODO
-      # - name: Deploy sign request lambda to AWS
-      #   uses: appleboy/lambda-action@v0.1.5
-      #   with:
-      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws_region: ${{ secrets.AWS_REGION }}
-      #     function_name: thinktech-webhook
-      #     zip_file: sign-request.zip
+      - name: Deploy sign request lambda to AWS
+        uses: appleboy/lambda-action@v0.1.5
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: thinktech-webhook
+          zip_file: sign-request.zip

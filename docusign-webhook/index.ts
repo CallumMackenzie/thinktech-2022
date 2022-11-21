@@ -1,7 +1,7 @@
 
-import { authorize } from "./src/security";
-import { DocuSignWrapper } from "./src/docusign";
-import { VaccinationFormData } from "./src/form";
+import { authorize } from "./security";
+import { DocuSignWrapper } from "common/docusign";
+import { VaccinationFormData } from "./form";
 
 export async function handler(event: any, context: any, callback: any) {
 
@@ -13,7 +13,7 @@ export async function handler(event: any, context: any, callback: any) {
 	let body = securityResult.result;
 
 	let envelopeId = body.data.envelopeId;
-	const docusign = DocuSignWrapper.instantiate();
+	const docusign = DocuSignWrapper.instantiate(["signature", "impersonate"]);
 
 	let formResult = await VaccinationFormData.fromFormData(docusign, envelopeId);
 	if (formResult.isError()) return formResult;

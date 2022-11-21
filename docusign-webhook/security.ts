@@ -1,5 +1,5 @@
 
-import { Result } from "./error";
+import { Result } from "common/error";
 import * as crypto from "crypto";
 
 const HMAC_KEYS = [1, 2, 3].map(x => "X-DocuSign-Signature-" + x);

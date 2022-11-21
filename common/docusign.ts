@@ -33,7 +33,14 @@ I6pIl/jP/yP4j156q6C3aR1OaS1OZ5HT3190fkWIGrYh8SdFFlMJ14b4bx2XSdSs
 ydjQS7Vm4V3V3eGtta0ECrHXDwlluMZ67OlxxpyW4/WftbNrHBEU3g==
 -----END RSA PRIVATE KEY-----`;
 
-import { ApiClient, Envelope, EnvelopeFormData, EnvelopesApi } from "docusign-esign";
+import {
+	ApiClient,
+	Envelope,
+	EnvelopeFormData,
+	EnvelopesApi,
+	EnvelopeDefinition,
+	InPersonSigner,
+} from "docusign-esign";
 import { Result } from "./error";
 
 const TOKEN_LIFETIME = 60 * 15; // 15 minutes
@@ -43,14 +50,14 @@ class TokenManager {
 	private static token: string | undefined;
 	private static tokenExpiry: number | undefined;
 
-	static async getToken(dsApiClient: ApiClient): Promise<Result<string>> {
+	static async getToken(dsApiClient: ApiClient, perms: string[]): Promise<Result<string>> {
 		if (this.tokenExpiry === undefined ||
 			this.token === undefined ||
 			Date.now() > this.tokenExpiry - TOKEN_REFRESH_TIME) {
 			const responseObj = await dsApiClient.requestJWTUserToken(
 				CLIENT_ID,
 				USER_ID,
-				["signature", "impersonation"],
+				perms,
 				Buffer.from(RSA_PRIVATE, "utf-8"),
 				TOKEN_LIFETIME
 			);
@@ -78,15 +85,17 @@ class TokenManager {
 
 export class DocuSignWrapper {
 
-	static instantiate = (): DocuSignWrapper =>
-		new DocuSignWrapper(API_ACCOUNT_ID, BASE_PATH);
+	static instantiate = (permissions: string[]): DocuSignWrapper =>
+		new DocuSignWrapper(API_ACCOUNT_ID, BASE_PATH, permissions);
 
 	private accountId: string;
 	private dsApiClient: ApiClient;
 	private envelopesApi: EnvelopesApi;
+	private permissions: string[];
 
-	private constructor(accountId: string, basePath: string) {
+	private constructor(accountId: string, basePath: string, permissions: string[]) {
 		this.accountId = accountId;
+		this.permissions = permissions;
 
 		this.dsApiClient = new ApiClient();
 		this.dsApiClient.setBasePath(basePath);
@@ -95,16 +104,38 @@ export class DocuSignWrapper {
 	}
 
 	private async refreshAccessToken(): Promise<Result<any>> {
-		const tokenResult = await TokenManager.getToken(this.dsApiClient);
+		const tokenResult = await TokenManager.getToken(this.dsApiClient, this.permissions);
 		if (tokenResult.isError()) return tokenResult;
 		const token = tokenResult.result;
 		this.dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + token);
 		return Result.Ok();
 	}
 
+	async signEnvelopeEmbedded(envelopeDef: EnvelopeDefinition): Promise<Result<string>> {
+		const result = await this.refreshAccessToken();
+		if (result.isError()) return result;
+
+		const envSummary = await this.envelopesApi.createEnvelope(this.accountId, envelopeDef);
+		if (envSummary === undefined
+			|| envSummary.status === undefined
+			|| envSummary.envelopeId === undefined
+			|| envSummary.status == "declined")
+			return Result.Err("Could not create envelope: " + JSON.stringify(envSummary),
+				500);
+
+		const envelopeId = envSummary.envelopeId;
+		console.log("ENVELOPE ID: " + envelopeId);
+
+		const viewURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId);
+		if (viewURL === undefined) return Result.Err("Could not create view url", 500);
+
+		return Result.Ok(viewURL.url);
+	}
+
 	async getEnvelope(envelopeId: string): Promise<Result<Envelope>> {
 		const result = await this.refreshAccessToken();
 		if (result.isError()) return result;
+
 		let envelope = await this.envelopesApi.getEnvelope(this.accountId, envelopeId);
 		return Result.Ok(envelope);
 	}
@@ -112,6 +143,7 @@ export class DocuSignWrapper {
 	async getFormData(envelopeId: string): Promise<Result<EnvelopeFormData>> {
 		const result = await this.refreshAccessToken();
 		if (result.isError()) return result;
+
 		let formData = await this.envelopesApi.getFormData(this.accountId, envelopeId);
 		return Result.Ok(formData);
 	}

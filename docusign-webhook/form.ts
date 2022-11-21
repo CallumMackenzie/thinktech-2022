@@ -1,5 +1,5 @@
-import { DocuSignWrapper } from "./docusign";
-import { Result } from "./error";
+import { DocuSignWrapper } from "common/docusign";
+import { Result } from "common/error";
 
 export enum NonEmployeeOrContractType {
 	Physician = "contractPhysician",
