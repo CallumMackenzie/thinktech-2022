@@ -32,9 +32,9 @@ export class VaccinationFormData {
 
 		console.log(docuSignFormData);
 		const vfd = new VaccinationFormData();
-		docuSignFormData.formData?.forEach(item => {
+		docuSignFormData.formData?.forEach((item: any) => {
 			for (let org in EmployeeOrg)
-				if (item.name?.startsWith(org) && item.value == "X")
+				if (item.name?.startsWith(org) && item.value?.contains("X"))
 					return vfd.employeeOrg.push(org as EmployeeOrg);
 			switch (item.name?.trim()) {
 				case "firstName":
