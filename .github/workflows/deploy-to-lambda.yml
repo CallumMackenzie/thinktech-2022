@@ -52,8 +52,8 @@ jobs:
       
       - name: Build form sign request lambda
         run: |
-          cd ..
-          cd form-sign-request
+          pwd
+          cd ../form-sign-request
           npm i
           npx tsc
 
