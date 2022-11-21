@@ -32,7 +32,7 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: .
-          dest: thinktech-2022.zip
+          dest: docusign-webhook.zip
           
       - name: Deploy webhook lambda to AWS
         uses: appleboy/lambda-action@v0.1.5
@@ -64,4 +64,4 @@ jobs:
       #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws_region: ${{ secrets.AWS_REGION }}
       #     function_name: thinktech-webhook
-      #     zip_file: docusign-wehbook.zip
+      #     zip_file: sign-request.zip
