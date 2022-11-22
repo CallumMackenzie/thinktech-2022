@@ -34,6 +34,11 @@ export async function handler(event: any) {
 	return {
 		statusCode: 200,
 		body: JSON.stringify({ url: urlResult.result }),
+		headers: {
+			"Access-Control-Allow-Headers": "Content-Type",
+			"Access-Control-Allow-Origin": "https://www.camackenzie.com",
+			"Access-Control-Allow-Methods": "POST,GET"
+		},
 	};
 }
 

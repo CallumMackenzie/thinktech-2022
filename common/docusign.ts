@@ -156,12 +156,11 @@ export class DocuSignWrapper {
 			{
 				recipientViewRequest: {
 					authenticationMethod: "none",
-					userId: "2",
-					// email: "noreply_"
-					// + Date.now()
-					// + Math.random().toString()
-					// + "@camackenzie.com",
-					// userName: "Nurse", // TODO
+					email: "noreply_"
+						+ Date.now()
+						+ Math.random().toString()
+						+ "@camackenzie.com",
+					userName: "Nurse", // TODO
 					returnUrl
 				} as RecipientViewRequest
 			});
