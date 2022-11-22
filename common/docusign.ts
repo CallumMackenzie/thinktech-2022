@@ -114,9 +114,9 @@ export class DocuSignWrapper {
 	async signEnvelopeEmbedded(envelopeDef: EnvelopeDefinition): Promise<Result<string>> {
 		const result = await this.refreshAccessToken();
 		if (result.isError()) return result;
-		// if (envelopeDef.sender === undefined)
-			// envelopeDef.sender = await
-				// this.dsApiClient.getUserInfo(result.result as string) as UserInfo;
+		if (envelopeDef.sender === undefined)
+			envelopeDef.sender = await
+				this.dsApiClient.getUserInfo(result.result as string) as UserInfo;
 
 		const envSummary = await this.envelopesApi.createEnvelope(this.accountId, {
 			envelopeDefinition: envelopeDef
