@@ -140,7 +140,6 @@ export class DocuSignWrapper {
 			{
 				recipientViewRequest: {
 					authenticationMethod: "none",
-					// userId: "1",
 					email: "noreply_"
 						+ Date.now()
 						+ Math.random().toString()
@@ -150,27 +149,9 @@ export class DocuSignWrapper {
 				} as RecipientViewRequest
 			});
 		if (vacURL === undefined
-			|| vacURL.url === undefined) return Result.Err("Could not create nurse view url", 500);
+			|| vacURL.url === undefined) return Result.Err("Could not create view url", 500);
 
-		const nurseURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId,
-			{
-				recipientViewRequest: {
-					authenticationMethod: "none",
-					email: "noreply_"
-						+ Date.now()
-						+ Math.random().toString()
-						+ "@camackenzie.com",
-					userName: "Nurse", // TODO
-					returnUrl
-				} as RecipientViewRequest
-			});
-		if (nurseURL === undefined
-			|| nurseURL.url === undefined) return Result.Err("Could not create vac view url", 500);
-
-		return Result.Ok({
-			vacURL: vacURL.url,
-			nurseURL: nurseURL.url
-		});
+		return Result.Ok(vacURL.url);
 	}
 
 	async getEnvelope(envelopeId: string): Promise<Result<Envelope>> {
