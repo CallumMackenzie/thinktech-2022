@@ -40,7 +40,8 @@ export async function handler(event: any) {
 	};
 
 	const urlResult = await docusign.signEnvelopeEmbedded(envelopeDef,
-		"callum.alex.mackenzie@gmail.com", HOST_NAME, "http://localhost");
+		"callum.alex.mackenzie@gmail.com", HOST_NAME,
+		"https://www.camackenzie.com/thinktech2022-docusign-fwd-frontend/");
 	if (urlResult.isError()) return urlResult.result;
 
 	console.log(urlResult.result);
