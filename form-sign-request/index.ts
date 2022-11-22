@@ -16,7 +16,9 @@ export async function handler(event: any) {
 	if (event["token"] != ACCESS_TOKEN)
 		return Result.Err("Incorrect access token", 401);
 
+	console.log("Correct token");
 	const docusign = DocuSignWrapper.instantiate(["signature", "impersonate"]);
+	console.log("Docusign instantiated");
 
 	const vaccinatedSigner: InPersonSigner = {
 		hostEmail: HOST_EMAIL,
