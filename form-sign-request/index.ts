@@ -20,26 +20,26 @@ export async function handler(event: any) {
 	const docusign = DocuSignWrapper.instantiate(["signature", "impersonate"]);
 	console.log("Docusign instantiated");
 
-	const vaccinatedSigner: InPersonSigner = {
-		hostEmail: HOST_EMAIL,
-		hostName: HOST_NAME,
-		signerName: "vaccinated",
-		recipientId: "1",
-		routingOrder: "1"
-	};
-	const nurseSigner: InPersonSigner = {
-		hostEmail: HOST_EMAIL,
-		hostName: HOST_NAME,
-		signerName: "nurse",
-		recipientId: "2",
-		routingOrder: "2"
-	};
+	// const vaccinatedSigner: InPersonSigner = {
+	// 	hostEmail: HOST_EMAIL,
+	// 	hostName: HOST_NAME,
+	// 	signerName: "vaccinated",
+	// 	recipientId: "1",
+	// 	routingOrder: "1"
+	// };
+	// const nurseSigner: InPersonSigner = {
+	// 	hostEmail: HOST_EMAIL,
+	// 	hostName: HOST_NAME,
+	// 	signerName: "nurse",
+	// 	recipientId: "2",
+	// 	routingOrder: "2"
+	// };
 	const envelopeDef: EnvelopeDefinition = {
 		templateId: FORM_TEMPLATE_ID,
 		status: "sent",
-		recipients: {
-			inPersonSigners: [vaccinatedSigner, nurseSigner]
-		}
+		// recipients: {
+		// 	inPersonSigners: [vaccinatedSigner, nurseSigner]
+		// }
 	};
 
 	const urlResult = await docusign.signEnvelopeEmbedded(envelopeDef);
