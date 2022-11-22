@@ -36,7 +36,10 @@ export async function handler(event: any, context: any, callback: any) {
 				N: (v instanceof Number || typeof v === 'number') ? v.toString() : undefined,
 				BOOL: (v instanceof Boolean || typeof v === 'boolean') ? v.valueOf() : undefined
 			};
-			convertedItem[k] = attribValue;
+			if (attribValue.S !== undefined
+				|| attribValue.N !== undefined
+				|| attribValue.BOOL !== undefined)
+				convertedItem[k] = attribValue;
 		});
 
 	const params: DynamoDB.PutItemInput = {
