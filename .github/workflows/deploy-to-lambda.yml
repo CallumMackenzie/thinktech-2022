@@ -34,11 +34,12 @@ jobs:
           cd docusign-webhook
           npm i
           npx tsc
+          cd ..
         
       - name: Zip webhook output
         uses: vimtor/action-zip@v1
         with:
-          files: .
+          files: ./docusign-webhook
           dest: docusign-webhook.zip
           
       - name: Deploy webhook lambda to AWS
@@ -55,11 +56,12 @@ jobs:
           cd form-sign-request
           npm i
           npx tsc
+          cd ..
 
       - name: Zip form sign request output
         uses: vimtor/action-zip@v1
         with:
-          files: .
+          files: ./form-sign-request
           dest: sign-request.zip
 
       - name: Deploy sign request lambda to AWS
