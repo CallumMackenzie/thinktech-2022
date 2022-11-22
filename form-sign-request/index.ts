@@ -26,7 +26,7 @@ export async function handler(event: any) {
 	};
 
 	const urlResult = await docusign.signEnvelopeEmbedded(envelopeDef,
-		HOST_EMAIL, HOST_NAME, "http://localhost");
+		"callum.alex.mackenzie@gmail.com", HOST_NAME, "http://localhost");
 	if (urlResult.isError()) return urlResult;
 
 	console.log(urlResult.result);
