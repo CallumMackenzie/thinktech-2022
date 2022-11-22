@@ -26,7 +26,7 @@ export async function handler(event: any) {
 	if (event.httpMethod == "OPTIONS") // CORS
 		return Result.Err("CORS", 200).result;
 
-	if (event.body?.token != ACCESS_TOKEN)
+	if (JSON.parse(event.body)?.token != ACCESS_TOKEN)
 		return Result.Err("Incorrect access token", 401).result;
 
 	console.log("Correct token");
