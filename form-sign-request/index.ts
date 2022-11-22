@@ -3,7 +3,6 @@ import { Result } from "common/error";
 import { DocuSignWrapper } from "common/docusign";
 import {
 	EnvelopeDefinition,
-	InPersonSigner
 } from "docusign-esign";
 
 const ACCESS_TOKEN = "thinktech2022";
@@ -26,7 +25,8 @@ export async function handler(event: any) {
 		templateRoles: [{ roleName: "Vaccinated" }, { roleName: "Nurse" }]
 	};
 
-	const urlResult = await docusign.signEnvelopeEmbedded(envelopeDef);
+	const urlResult = await docusign.signEnvelopeEmbedded(envelopeDef,
+		HOST_EMAIL, HOST_NAME);
 	if (urlResult.isError()) return urlResult;
 
 	return {

@@ -39,7 +39,8 @@ import {
 	EnvelopeFormData,
 	EnvelopesApi,
 	EnvelopeDefinition,
-	UserInfo
+	UserInfo,
+	RecipientViewRequest
 } from "docusign-esign";
 import { Result } from "./error";
 
@@ -111,7 +112,10 @@ export class DocuSignWrapper {
 		return Result.Ok(token);
 	}
 
-	async signEnvelopeEmbedded(envelopeDef: EnvelopeDefinition): Promise<Result<string>> {
+	async signEnvelopeEmbedded(
+		envelopeDef: EnvelopeDefinition,
+		hostEmail: string,
+		hostUsername: string): Promise<Result<string>> {
 		const result = await this.refreshAccessToken();
 		if (result.isError()) return result;
 		if (envelopeDef.sender === undefined)
@@ -131,8 +135,16 @@ export class DocuSignWrapper {
 		const envelopeId = envSummary.envelopeId;
 		console.log("ENVELOPE ID: " + envelopeId);
 
-		const viewURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId);
-		if (viewURL === undefined) return Result.Err("Could not create view url", 500);
+		let recipientViewRequest: RecipientViewRequest = {
+			authenticationMethod: "none",
+			email: hostEmail,
+			userName: hostUsername,
+		};
+
+		const viewURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId,
+			{ recipientViewRequest });
+		if (viewURL === undefined
+			|| viewURL.url === undefined) return Result.Err("Could not create view url", 500);
 
 		return Result.Ok(viewURL.url);
 	}
