@@ -11,6 +11,7 @@ const HOST_EMAIL = "alexxander1611@gmail.com";
 const HOST_NAME = "Callum Mackenzie";
 
 export async function handler(event: any) {
+	console.log(event)
 	Result.setPropFilter((props) => {
 		return {
 			"statusCode": props.statusCode,
@@ -22,7 +23,7 @@ export async function handler(event: any) {
 		};
 	});
 
-	if (event["token"] != ACCESS_TOKEN)
+	if (event.body?.token != ACCESS_TOKEN)
 		return Result.Err("Incorrect access token", 401);
 
 	console.log("Correct token");
