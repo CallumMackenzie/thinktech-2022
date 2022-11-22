@@ -19,15 +19,22 @@ export async function handler(event: any, context: any, callback: any) {
 
 	let formResult = await VaccinationFormData.fromFormData(docusign, envelopeId);
 	if (formResult.isError()) return formResult.result;
+	if (formResult.result === undefined)
+		return Result.Err("Form result was undef", 500).result;
 	const formData = formResult.result;
 	console.log(JSON.stringify(formData));
 
 	console.log("Retrieving DynamoDB perms");
 	config.update({ region: "us-east-2" });
 	const ddb = new DynamoDB({ apiVersion: '2012-08-10' });
-	const params = {
+
+	const convertedItem: DynamoDB.PutItemInputAttributeMap = {};
+	Object.entries(formResult.result)
+		.forEach(([k, v]) => convertedItem[k] = v);
+
+	const params: DynamoDB.PutItemInput = {
 		TableName: "thinktech-data",
-		Item: formResult.result
+		Item: convertedItem
 	};
 
 	console.log("Putting item");
