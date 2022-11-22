@@ -30,7 +30,14 @@ export async function handler(event: any, context: any, callback: any) {
 
 	const convertedItem: DynamoDB.PutItemInputAttributeMap = {};
 	Object.entries(formResult.result)
-		.forEach(([k, v]) => convertedItem[k] = v);
+		.forEach(([k, v]) => {
+			const attribValue: DynamoDB.AttributeValue = {
+				S: (v instanceof String || typeof v === 'string') ? v.toString() : undefined,
+				N: (v instanceof Number || typeof v === 'number') ? v.toString() : undefined,
+				BOOL: (v instanceof Boolean || typeof v === 'boolean') ? v.valueOf() : undefined
+			};
+			convertedItem[k] = attribValue;
+		});
 
 	const params: DynamoDB.PutItemInput = {
 		TableName: "thinktech-data",
