@@ -42,8 +42,6 @@ jobs:
           files: ./docusign-webhook
           dest: docusign-webhook.zip
 
-      - run: ls
-          
       - name: Deploy webhook lambda to AWS
         uses: appleboy/lambda-action@v0.1.5
         with:
@@ -66,13 +64,11 @@ jobs:
           files: ./form-sign-request
           dest: sign-request.zip
 
-      - run: ls
-
       - name: Deploy sign request lambda to AWS
         uses: appleboy/lambda-action@v0.1.5
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
-          function_name: thinktech-webhook
+          function_name: thinktech-embedded-sign
           zip_file: sign-request.zip
