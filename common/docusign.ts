@@ -140,14 +140,14 @@ export class DocuSignWrapper {
 			{
 				recipientViewRequest: {
 					authenticationMethod: "none",
-					email: "noreply_"
-						+ Date.now()
-						+ Math.random().toString()
-						+ "@camackenzie.com",
-					userName: "Vaccinated", // TODO
+					userId: "1",
+					// email: "noreply_"
+					// 	+ Date.now()
+					// 	+ Math.random().toString()
+					// 	+ "@camackenzie.com",
+					// userName: "Vaccinated", // TODO
 					returnUrl,
-					recipientId: "1"
-				}
+				} as RecipientViewRequest
 			});
 		if (vacURL === undefined
 			|| vacURL.url === undefined) return Result.Err("Could not create nurse view url", 500);
@@ -156,14 +156,14 @@ export class DocuSignWrapper {
 			{
 				recipientViewRequest: {
 					authenticationMethod: "none",
-					email: "noreply_"
-						+ Date.now()
-						+ Math.random().toString()
-						+ "@camackenzie.com",
-					userName: "Nurse", // TODO
-					returnUrl,
-					recipientId: "2"
-				}
+					userId: "2",
+					// email: "noreply_"
+					// + Date.now()
+					// + Math.random().toString()
+					// + "@camackenzie.com",
+					// userName: "Nurse", // TODO
+					returnUrl
+				} as RecipientViewRequest
 			});
 		if (nurseURL === undefined
 			|| nurseURL.url === undefined) return Result.Err("Could not create vac view url", 500);
