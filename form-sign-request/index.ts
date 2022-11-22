@@ -29,6 +29,8 @@ export async function handler(event: any) {
 		HOST_EMAIL, HOST_NAME, "http://localhost");
 	if (urlResult.isError()) return urlResult;
 
+	console.log(urlResult.result);
+
 	return {
 		statusCode: 200,
 		body: JSON.stringify({ url: urlResult.result }),
