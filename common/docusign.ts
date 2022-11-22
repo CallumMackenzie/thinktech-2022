@@ -39,7 +39,7 @@ import {
 	EnvelopeFormData,
 	EnvelopesApi,
 	EnvelopeDefinition,
-	InPersonSigner,
+	UserInfo
 } from "docusign-esign";
 import { Result } from "./error";
 
@@ -103,17 +103,20 @@ export class DocuSignWrapper {
 		this.envelopesApi = new EnvelopesApi(this.dsApiClient);
 	}
 
-	private async refreshAccessToken(): Promise<Result<any>> {
+	private async refreshAccessToken(): Promise<Result<string>> {
 		const tokenResult = await TokenManager.getToken(this.dsApiClient, this.permissions);
 		if (tokenResult.isError()) return tokenResult;
 		const token = tokenResult.result;
 		this.dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + token);
-		return Result.Ok();
+		return Result.Ok(token);
 	}
 
 	async signEnvelopeEmbedded(envelopeDef: EnvelopeDefinition): Promise<Result<string>> {
 		const result = await this.refreshAccessToken();
 		if (result.isError()) return result;
+		if (envelopeDef.sender === undefined)
+			envelopeDef.sender = await
+				this.dsApiClient.getUserInfo(result.result as string) as UserInfo;
 
 		const envSummary = await this.envelopesApi.createEnvelope(this.accountId, envelopeDef);
 		if (envSummary === undefined
