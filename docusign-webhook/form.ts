@@ -46,7 +46,7 @@ export class VaccinationFormData {
 				case "birthDate":
 					return vfd.birthDate = item.value;
 				case "PHN":
-					return vfd.PHN = item.value;
+					return vfd.phn = item.value;
 				case "clinicLocation":
 					return vfd.clinicLocation = item.value;
 				case "dateSigned":
@@ -77,7 +77,7 @@ export class VaccinationFormData {
 	lastName: string | undefined;
 	email: string | undefined;
 	birthDate: string | undefined;
-	PHN: string | undefined;
+	phn: string | undefined;
 	dateSigned: string | undefined;
 	residentialAddress: string | undefined;
 	phoneNumber: string | undefined;

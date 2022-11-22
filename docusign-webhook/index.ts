@@ -20,25 +20,22 @@ export async function handler(event: any, context: any, callback: any) {
 	let formResult = await VaccinationFormData.fromFormData(docusign, envelopeId);
 	if (formResult.isError()) return formResult.result;
 	const formData = formResult.result;
+	console.log(JSON.stringify(formData));
 
+	console.log("Retrieving DynamoDB perms");
 	config.update({ region: "us-east-2" });
 	const ddb = new DynamoDB({ apiVersion: '2012-08-10' });
-
 	const params = {
 		TableName: "thinktech-data",
 		Item: formResult.result
 	};
 
-	ddb.putItem(params, (err: any, data: any) => {
+	console.log("Putting item");
+	await ddb.putItem(params, (err: any, data: any) => {
 		if (err) return Result.Err(err, 500).result
 		console.log("Data updated: " + data);
 	});
-
-	console.log(JSON.stringify(formData));
-
-	// Retrieve the data -> DocuSign APIs
-	// Collect into a structure -> JS
-	// Pass it to the UIPath RPA running in an EC2 instance -> AWS APIs
+	console.log("Item request finished");
 
 	const response = {
 		statusCode: 200,
