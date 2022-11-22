@@ -11,6 +11,16 @@ const HOST_EMAIL = "alexxander1611@gmail.com";
 const HOST_NAME = "Callum Mackenzie";
 
 export async function handler(event: any) {
+	Result.setPropFilter((props) => {
+		return {
+			"statusCode": props.statusCode,
+			"headers": {
+				"Access-Control-Allow-Headers": "Content-Type",
+				"Access-Control-Allow-Origin": "https://www.camackenzie.com",
+				"Access-Control-Allow-Methods": "POST,GET"
+			}
+		};
+	});
 
 	if (event["token"] != ACCESS_TOKEN)
 		return Result.Err("Incorrect access token", 401);
