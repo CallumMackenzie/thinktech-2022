@@ -48,7 +48,7 @@ export async function handler(event: any, context: any, callback: any) {
 	await ddb.putItem(params, (err: any, data: any) => {
 		if (err) console.log("PutItem error: " + err);
 		else console.log("Data updated: " + data);
-	});
+	}).promise();
 	console.log("Item request finished");
 
 	const response = {
