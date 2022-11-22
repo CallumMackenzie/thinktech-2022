@@ -115,7 +115,8 @@ export class DocuSignWrapper {
 	async signEnvelopeEmbedded(
 		envelopeDef: EnvelopeDefinition,
 		hostEmail: string,
-		hostUsername: string): Promise<Result<string>> {
+		hostUsername: string,
+		returnUrl: string): Promise<Result<string>> {
 		const result = await this.refreshAccessToken();
 		if (result.isError()) return result;
 		if (envelopeDef.sender === undefined)
@@ -139,6 +140,7 @@ export class DocuSignWrapper {
 			authenticationMethod: "none",
 			email: hostEmail,
 			userName: hostUsername,
+			returnUrl
 		};
 
 		const viewURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId,

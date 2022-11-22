@@ -26,7 +26,7 @@ export async function handler(event: any) {
 	};
 
 	const urlResult = await docusign.signEnvelopeEmbedded(envelopeDef,
-		HOST_EMAIL, HOST_NAME);
+		HOST_EMAIL, HOST_NAME, "http://localhost");
 	if (urlResult.isError()) return urlResult;
 
 	return {
