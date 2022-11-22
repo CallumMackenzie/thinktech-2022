@@ -37,7 +37,7 @@ export async function handler(event: any, context: any, callback: any) {
 		Item: convertedItem
 	};
 
-	console.log("Putting item: " + convertedItem);
+	console.log("Putting item: " + JSON.stringify(convertedItem));
 	await ddb.putItem(params, (err: any, data: any) => {
 		if (err) console.log("PutItem error: " + err);
 		else console.log("Data updated: " + data);
