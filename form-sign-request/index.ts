@@ -11,7 +11,7 @@ const HOST_NAME = "Callum Mackenzie";
 const CORS_HEADERS = {
 	"Access-Control-Allow-Headers": "Content-Type",
 	"Access-Control-Allow-Origin": "https://www.camackenzie.com",
-	"Access-Control-Allow-Methods": "POST,GET"
+	"Access-Control-Allow-Methods": "POST"
 };
 
 export async function handler(event: any) {
@@ -26,17 +26,20 @@ export async function handler(event: any) {
 	if (event.httpMethod == "OPTIONS") // CORS
 		return Result.Err("CORS", 200).result;
 
-	if (JSON.parse(event.body)?.token != ACCESS_TOKEN)
+
+	let parsedBody = JSON.parse(event.body);
+
+	if (parsedBody?.token != ACCESS_TOKEN)
 		return Result.Err("Incorrect access token", 401).result;
 	console.log("Correct token");
 
-	switch (event.httpMethod) {
-		case "POST":
+	switch (parsedBody?.type) {
+		case "link":
 			return post(event);
-		case "GET":
+		case "data":
 			return get(event);
 		default:
-			return Result.Err("Not POST or GET", 400);
+			return Result.Err("Not a valid request", 400);
 	}
 }
 
