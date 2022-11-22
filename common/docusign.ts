@@ -116,7 +116,7 @@ export class DocuSignWrapper {
 		envelopeDef: EnvelopeDefinition,
 		hostEmail: string,
 		hostUsername: string,
-		returnUrl: string): Promise<Result<string>> {
+		returnUrl: string): Promise<Result> {
 		const result = await this.refreshAccessToken();
 		if (result.isError()) return result;
 		if (envelopeDef.sender === undefined)
@@ -136,19 +136,42 @@ export class DocuSignWrapper {
 		const envelopeId = envSummary.envelopeId;
 		console.log("ENVELOPE ID: " + envelopeId);
 
-		let recipientViewRequest: RecipientViewRequest = {
-			authenticationMethod: "none",
-			email: hostEmail,
-			userName: hostUsername,
-			returnUrl
-		};
+		const vacURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId,
+			{
+				recipientViewRequest: {
+					authenticationMethod: "none",
+					email: "noreply_"
+						+ Date.now()
+						+ Math.random().toString()
+						+ "@camackenzie.com",
+					userName: "Vaccinated", // TODO
+					returnUrl,
+					recipientId: "1"
+				}
+			});
+		if (vacURL === undefined
+			|| vacURL.url === undefined) return Result.Err("Could not create nurse view url", 500);
 
-		const viewURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId,
-			{ recipientViewRequest });
-		if (viewURL === undefined
-			|| viewURL.url === undefined) return Result.Err("Could not create view url", 500);
+		const nurseURL = await this.envelopesApi.createRecipientView(this.accountId, envelopeId,
+			{
+				recipientViewRequest: {
+					authenticationMethod: "none",
+					email: "noreply_"
+						+ Date.now()
+						+ Math.random().toString()
+						+ "@camackenzie.com",
+					userName: "Nurse", // TODO
+					returnUrl,
+					recipientId: "2"
+				}
+			});
+		if (nurseURL === undefined
+			|| nurseURL.url === undefined) return Result.Err("Could not create vac view url", 500);
 
-		return Result.Ok(viewURL.url);
+		return Result.Ok({
+			vacURL: vacURL.url,
+			nurseURL: nurseURL.url
+		});
 	}
 
 	async getEnvelope(envelopeId: string): Promise<Result<Envelope>> {
