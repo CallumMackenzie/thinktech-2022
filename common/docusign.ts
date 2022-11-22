@@ -137,7 +137,7 @@ export class DocuSignWrapper {
 
 	async getEnvelope(envelopeId: string): Promise<Result<Envelope>> {
 		const result = await this.refreshAccessToken();
-		if (result.isError()) return result;
+		if (result.isError()) return result as Result;
 
 		let envelope = await this.envelopesApi.getEnvelope(this.accountId, envelopeId);
 		return Result.Ok(envelope);
@@ -145,7 +145,7 @@ export class DocuSignWrapper {
 
 	async getFormData(envelopeId: string): Promise<Result<EnvelopeFormData>> {
 		const result = await this.refreshAccessToken();
-		if (result.isError()) return result;
+		if (result.isError()) return result as Result;
 
 		let formData = await this.envelopesApi.getFormData(this.accountId, envelopeId);
 		return Result.Ok(formData);
