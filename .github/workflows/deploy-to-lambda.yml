@@ -41,6 +41,8 @@ jobs:
         with:
           files: ./docusign-webhook
           dest: docusign-webhook.zip
+
+      - run: ls
           
       - name: Deploy webhook lambda to AWS
         uses: appleboy/lambda-action@v0.1.5
@@ -63,6 +65,8 @@ jobs:
         with:
           files: ./form-sign-request
           dest: sign-request.zip
+
+      - run: ls
 
       - name: Deploy sign request lambda to AWS
         uses: appleboy/lambda-action@v0.1.5
