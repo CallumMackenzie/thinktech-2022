@@ -16,7 +16,7 @@ export async function handler(event: any, context: any, callback: any) {
 	const docusign = DocuSignWrapper.instantiate(["signature", "impersonate"]);
 
 	let formResult = await VaccinationFormData.fromFormData(docusign, envelopeId);
-	if (formResult.isError()) return formResult;
+	if (formResult.isError()) return formResult.result;
 	const formData = formResult.result;
 
 	console.log(JSON.stringify(formData));

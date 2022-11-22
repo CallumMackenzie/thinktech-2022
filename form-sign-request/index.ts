@@ -24,7 +24,7 @@ export async function handler(event: any) {
 	});
 
 	if (event.body?.token != ACCESS_TOKEN)
-		return Result.Err("Incorrect access token", 401);
+		return Result.Err("Incorrect access token", 401).result;
 
 	console.log("Correct token");
 	const docusign = DocuSignWrapper.instantiate(["signature", "impersonate"]);
@@ -38,7 +38,7 @@ export async function handler(event: any) {
 
 	const urlResult = await docusign.signEnvelopeEmbedded(envelopeDef,
 		"callum.alex.mackenzie@gmail.com", HOST_NAME, "http://localhost");
-	if (urlResult.isError()) return urlResult;
+	if (urlResult.isError()) return urlResult.result;
 
 	console.log(urlResult.result);
 
