@@ -54,7 +54,7 @@ const get = async (event: any) => {
 
 	return {
 		statusCode: 200,
-		body: result,
+		body: JSON.stringify({ items: result.Items }),
 		headers: CORS_HEADERS
 	};
 };
