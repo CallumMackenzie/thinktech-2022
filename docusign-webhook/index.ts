@@ -26,7 +26,7 @@ export async function handler(event: any, context: any, callback: any) {
 	console.log(JSON.stringify(formData));
 
 	const ddb = initDynamoDB("us-east-2");
-	putItemInTable(ddb, "thinktech-data", formData);
+	await putItemInTable(ddb, "thinktech-data", formData);
 
 	const response = {
 		statusCode: 200,
